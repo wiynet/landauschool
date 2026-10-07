@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landau school — домашние задания</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/8cb707a9b8a73f8a7403336b861c3074?family=BubbledotICG-FinePos" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+:root{
+  --bg:#000000;
+  --text:#ffffff;
+  --muted:#8e8e8e;
+  --nav-text:#2e2e2e;
+  --pill-dark:#28282a;
+  --sign-in-text:#c8c8c8;
+  --nav-shadow:0 4px 14px rgba(0,0,0,0.16);
+  --trust-bg:#28282a;
+  --trust-border:rgba(255,255,255,0.4);
+  --trust-text:#c4c2c3;
+  --line:rgba(255,255,255,0.14);
+  --card:rgba(30,30,32,0.78);
+  --font-sans:"Inter","Segoe UI",system-ui,sans-serif;
+  --font-display:"BubbledotICG-FinePos","Geist Pixel Circle",monospace;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);overflow:hidden;height:100vh;height:100dvh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;line-height:1.5}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+/* BACKGROUND */
+.bg{position:absolute;inset:0;background:#000;overflow:hidden}
+.bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0}
+.bg-shade{position:absolute;inset:0;background:#000;opacity:0;transition:opacity 0.5s ease;pointer-events:none}
+body.inview .bg-shade{opacity:0.62}
+
+/* PAGE */
+.page{position:relative;display:flex;flex-direction:column;align-items:center;height:100vh;height:100dvh;overflow:hidden;padding:clamp(16px,2.4vh,28px) clamp(14px,3vw,32px)}
+.header,.main,.stats,.mobile-menu{position:relative;z-index:1}
+
+/* HEADER */
+.header{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:clamp(18px,2.8vw,28px);width:100%;max-width:720px;animation:slideDown 0.7s var(--ease) both}
+@keyframes slideDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:none}}
+.logo{flex-shrink:0;display:grid;place-items:center;width:clamp(40px,4.4vw,46px);height:clamp(40px,4.4vw,46px);border-radius:50%;background:#fff;box-shadow:var(--nav-shadow);transition:transform 0.3s var(--ease)}
+.logo:hover{transform:scale(1.04)}
+.logo svg{width:72%;height:72%}
+.nav{flex:1;max-width:430px;height:clamp(44px,5.2vw,48px);display:flex;align-items:center;justify-content:space-around;padding:4px 8px;border-radius:999px;background:#fff;box-shadow:var(--nav-shadow)}
+.nav a{position:relative;display:flex;align-items:center;height:100%;padding:0 10px;font-weight:500;font-size:clamp(13px,1.4vw,15px);letter-spacing:-0.01em;color:var(--nav-text);opacity:0.5;transition:opacity 0.25s;white-space:nowrap}
+.nav a:hover{opacity:0.75}
+.nav a.active{opacity:1}
+.nav a.active::after,.mobile-menu a.active::after{content:"";position:absolute;left:50%;bottom:5px;width:3px;height:3px;margin-left:-1.5px;background:#000;box-shadow:-5px 0 0 #000,5px 0 0 #000}
+.sign-in{flex-shrink:0;height:clamp(44px,5.2vw,48px);padding:0 22px;border-radius:999px;background:var(--pill-dark);color:var(--sign-in-text);font-weight:500;font-size:clamp(13px,1.4vw,15px);box-shadow:var(--nav-shadow);transition:background 0.25s,color 0.25s,transform 0.25s;white-space:nowrap}
+.sign-in:hover{background:#323234;color:#fff;transform:translateY(-1px)}
+body.out .nav{display:none}
+.burger{display:none}
+
+/* MAIN */
+.main{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;align-items:center}
+
+/* HERO */
+.hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;max-width:900px}
+.anim{opacity:0;transform:translateY(22px) scale(0.98);filter:blur(6px);animation:reveal 0.85s var(--ease) forwards;animation-delay:var(--d,0s)}
+@keyframes reveal{to{opacity:1;transform:none;filter:blur(0)}}
+.trust{--trust-size:clamp(36px,4.5vw,42px);display:inline-flex;align-items:center;margin-bottom:clamp(16px,2.5vh,26px)}
+.avatar{width:var(--trust-size);height:var(--trust-size);border-radius:50%;background:var(--trust-bg);border:1px solid var(--trust-border);padding:5px;transition:transform 0.35s var(--ease);position:relative}
+.avatar span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#fff;color:#111;font-size:calc(var(--trust-size) * 0.34)}
+.avatar+.avatar{margin-left:calc(var(--trust-size) * -0.42)}
+.a1{z-index:1}.a2{z-index:2}.a3{z-index:4}
+.trust:hover .a1,.trust:hover .a3{transform:translateY(-2px)}
+.trust:hover .a2{transform:translateY(-4px)}
+.trust-pill{height:var(--trust-size);display:flex;align-items:center;margin-left:calc(var(--trust-size) * -0.42);padding:0 16px 0 calc(var(--trust-size) * 0.58);border-radius:999px;background:var(--trust-bg);border:1px solid var(--trust-border);color:var(--trust-text);font-weight:500;font-size:clamp(12px,1.4vw,13.5px);position:relative;z-index:3;white-space:nowrap}
+.headline{margin:0;font-family:var(--font-display);font-weight:400;color:#fff;font-size:clamp(28px,6.2vw,80px);letter-spacing:-0.04em;line-height:1.12;white-space:nowrap;overflow:hidden}
+.headline span{display:block;opacity:0;transform:translateY(14px);animation:headlineFade 0.85s var(--ease) forwards}
+.headline span:nth-child(1){animation-delay:0.12s}
+.headline span:nth-child(2){animation-delay:0.3s}
+@keyframes headlineFade{to{opacity:1;transform:none}}
+.subhead{max-width:min(500px,92%);margin:clamp(14px,2.2vh,22px) 0 clamp(18px,3vh,30px);font-size:clamp(calc(13.5px + 2pt),calc(1.55vw + 2pt),calc(16.5px + 2pt));color:#d0d0d0;line-height:1.55;font-weight:400}
+.subhead.anim{animation-name:revealSoft}
+@keyframes revealSoft{to{opacity:0.8;transform:none;filter:blur(0)}}
+.cta{display:inline-flex;align-items:center;padding:clamp(11px,1.6vh,13px) clamp(22px,3vw,28px);border-radius:999px;background:#fff;color:#000;font-weight:600;font-size:clamp(13.5px,1.5vw,14.5px);box-shadow:0 0 0 1px rgba(255,255,255,0.15),0 0 22px rgba(255,255,255,0.32),0 0 44px rgba(255,255,255,0.12);transition:transform 0.3s var(--ease),box-shadow 0.3s}
+.cta:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 0 0 1px rgba(255,255,255,0.25),0 0 30px rgba(255,255,255,0.45),0 0 60px rgba(255,255,255,0.2)}
+.cta:disabled{opacity:0.6}
+.cta.anim{animation-name:revealPulse}
+@keyframes revealPulse{0%{opacity:0;transform:translateY(22px) scale(0.98);filter:blur(6px)}70%{opacity:1;transform:translateY(0) scale(1.03);filter:blur(0)}100%{opacity:1;transform:none;filter:blur(0)}}
+
+/* STATS */
+.stats{flex-shrink:0;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,2vw,24px);width:100%;max-width:920px;text-align:center}
+.stat-icon{font-family:var(--font-display);font-size:clamp(22px,3vw,33px);line-height:1;color:#fff}
+.stat-value{font-size:clamp(18px,2.2vw,26px);letter-spacing:-0.025em;font-variant-numeric:tabular-nums;margin-top:4px}
+.stat-label{color:var(--muted);font-size:clamp(11px,1.2vw,12.5px)}
+
+/* VIEWS (после входа) */
+.view{flex:1;min-height:0;width:100%;max-width:1040px;overflow-y:auto;padding:clamp(18px,3vh,30px) 2px 12px;animation:viewIn 0.5s var(--ease) both;scrollbar-width:thin;scrollbar-color:#444 transparent}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.view-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
+.view h2{margin:0;font-weight:600;font-size:clamp(20px,2.6vw,28px);letter-spacing:-0.025em}
+.chip{display:inline-flex;align-items:center;height:30px;padding:0 13px;border-radius:999px;background:var(--trust-bg);border:1px solid var(--trust-border);color:var(--trust-text);font-size:12.5px;font-weight:500;white-space:nowrap}
+.meta{font-size:12.5px;color:var(--muted)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tab{height:36px;padding:0 18px;border-radius:999px;background:var(--pill-dark);color:var(--sign-in-text);font-weight:500;font-size:13.5px;transition:background 0.25s,color 0.25s}
+.tab:hover{background:#323234;color:#fff}
+.tab.on{background:#fff;color:#000}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.day{padding:8px 8px 10px}
+.day h3{margin:10px 12px 8px;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#fff}
+.row{display:grid;grid-template-columns:52px 92px 1fr;gap:6px;padding:8px 12px;border-radius:12px;font-size:13.5px;align-items:baseline}
+.row:nth-child(even){background:rgba(255,255,255,0.045)}
+.row .n,.row .t{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
+.row.lunch,.row.lunch .n,.row.lunch .t{color:#c4c2c3;font-style:italic}
+.note{margin:14px 4px 0;font-size:12.5px;color:var(--muted)}
+.list{display:grid;gap:10px}
+.item{padding:16px 18px;display:grid;gap:6px}
+.item-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}
+.item strong{font-weight:600;font-size:15px;letter-spacing:-0.01em}
+.item p{margin:0;color:#d0d0d0;font-size:14.5px;white-space:pre-wrap;overflow-wrap:anywhere}
+.grade-row{display:flex;gap:14px;align-items:center}
+.grade{flex-shrink:0;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#fff;color:#000;font-weight:600;font-size:16px;font-variant-numeric:tabular-nums}
+.grade.low{background:var(--pill-dark);color:#fff;border:1px solid var(--trust-border)}
+.avg{margin:0 4px 12px;font-size:14px;color:#d0d0d0}
+.grid2{display:grid;grid-template-columns:minmax(0,360px) 1fr;gap:14px;align-items:start}
+form.f{display:grid;gap:12px;padding:20px}
+form.f>strong{font-weight:600;font-size:15px}
+label{display:grid;gap:6px;font-size:12.5px;color:var(--muted)}
+input,select,textarea{font:inherit;font-size:14.5px;color:#fff;background:rgba(255,255,255,0.07);border:1px solid var(--line);border-radius:14px;padding:11px 14px;width:100%;color-scheme:dark}
+select option{color:#fff;background:#28282a}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(255,255,255,0.6);outline-offset:1px}
+.btn{justify-self:start;height:42px;padding:0 24px;border-radius:999px;background:#fff;color:#000;font-weight:600;font-size:14px;transition:transform 0.25s var(--ease),box-shadow 0.25s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 0 22px rgba(255,255,255,0.3)}
+.btn:disabled{opacity:0.6}
+.del{justify-self:start;font-size:12.5px;color:var(--muted);padding:2px 0;text-decoration:underline;text-underline-offset:3px}
+.del:hover{color:#fff}
+.empty{padding:22px;color:var(--muted);font-size:14.5px;text-align:center}
+
+/* MODAL */
+.modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,0.62);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:opacity 0.28s ease,visibility 0s linear 0.28s}
+.modal.open{opacity:1;visibility:visible;transition:opacity 0.28s ease,visibility 0s}
+.modal-card{position:relative;width:100%;max-width:420px;max-height:calc(100dvh - 32px);overflow:auto;background:#1b1b1d;border:1px solid var(--line);border-radius:28px;padding:28px 24px 24px;box-shadow:0 20px 60px rgba(0,0,0,0.45);transform:translateY(12px) scale(0.98);transition:transform 0.38s var(--ease)}
+.modal.open .modal-card{transform:none}
+.brand{font-family:var(--font-display);font-size:22px;letter-spacing:-0.04em;margin-bottom:6px}
+.modal h2{margin:0 0 4px;font-size:20px;font-weight:600;letter-spacing:-0.02em}
+.modal p{margin:0 0 18px;color:var(--muted);font-size:14px}
+.x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:var(--pill-dark);color:var(--sign-in-text);font-size:18px;line-height:1}
+.x:hover{background:#323234;color:#fff}
+.roles{display:grid;gap:10px}
+.role{display:grid;gap:3px;text-align:left;padding:16px 18px;border-radius:20px;background:var(--pill-dark);border:1px solid var(--line);transition:background 0.25s,transform 0.25s}
+.role:hover{background:#323234;transform:translateY(-1px)}
+.role strong{font-weight:600;font-size:15px}
+.role span{font-size:13px;color:var(--muted)}
+#step2{display:grid;gap:12px}
+.back{justify-self:start;font-size:13px;color:var(--muted)}
+.back:hover{color:#fff}
+.err{color:#ff9a9a;font-size:13.5px;min-height:20px;margin:0}
+#step2 .btn{justify-self:stretch}
+
+/* MOBILE */
+.overlay,.mobile-menu{display:none}
+@media (max-width:720px){
+  .header{justify-content:space-between}
+  .nav,.header .sign-in{display:none}
+  .logo{width:48px;height:48px}
+  .burger{display:grid;place-items:center;position:relative;width:48px;height:48px;border-radius:50%;background:var(--pill-dark);transition:background 0.3s;z-index:41}
+  .burger span{position:absolute;width:18px;height:1.5px;background:#fff;transition:transform 0.3s var(--ease),opacity 0.2s,background 0.3s}
+  .burger span:nth-child(1){transform:translateY(-6.5px)}
+  .burger span:nth-child(3){transform:translateY(6.5px)}
+  .burger[aria-expanded="true"]{background:#fff}
+  .burger[aria-expanded="true"] span{background:#000}
+  .burger[aria-expanded="true"] span:nth-child(1){transform:rotate(45deg)}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:rotate(-45deg)}
+  body.menu-open .header{z-index:42}
+  .overlay{display:block;position:fixed;inset:0;z-index:40;background:rgba(0,0,0,0.62);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:overlayIn 0.28s ease both}
+  @keyframes overlayIn{from{opacity:0}}
+  .mobile-menu{display:block;position:fixed;z-index:41;top:calc(clamp(16px,2.4vh,28px) + 60px);left:14px;right:14px;background:#fff;border-radius:28px;padding:22px 18px 20px;box-shadow:0 20px 60px rgba(0,0,0,0.45);animation:menuIn 0.38s var(--ease) both}
+  @keyframes menuIn{from{opacity:0;transform:translateY(-10px) scale(0.97)}}
+  .mobile-menu a{position:relative;display:block;text-align:center;padding:14px 0 18px;font-weight:500;font-size:17px;color:var(--nav-text);opacity:0.5;animation:linkIn 0.4s var(--ease) both}
+  .mobile-menu a.active{opacity:1}
+  .mobile-menu a.active::after{bottom:8px}
+  .mobile-menu a:nth-child(1){animation-delay:0.04s}.mobile-menu a:nth-child(2){animation-delay:0.08s}.mobile-menu a:nth-child(3){animation-delay:0.12s}.mobile-menu a:nth-child(4){animation-delay:0.16s}
+  @keyframes linkIn{from{opacity:0;transform:translateY(8px)}}
+  .mobile-menu .sign-in{display:block;width:100%;margin-top:8px;height:48px;font-size:15px}
+  body.out .mobile-menu a{display:none}
+  .stats{grid-template-columns:repeat(2,1fr);row-gap:14px}
+  .headline{letter-spacing:-0.08em;line-height:1.05}
+  .trust-pill{font-size:12px}
+  .grid2{grid-template-columns:1fr}
+  .days{grid-template-columns:1fr}
+}
+@media (max-width:420px){
+  .trust{--trust-size:34px}
+  .headline{letter-spacing:-0.09em;line-height:1.04}
+  .row{grid-template-columns:46px 84px 1fr}
+}
+@media (max-height:700px){
+  .trust{margin-bottom:12px}
+  .subhead{margin:10px 0 14px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  .anim,.headline span{opacity:1;transform:none;filter:none}
+  .subhead.anim{opacity:0.8}
+}
+</style>
+</head>
+<body class="out">
+
+<div class="bg">
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260809_012548_ef22562c-c0ae-4816-ad9d-f8922af4e6a7.mp4" type="video/mp4">
+  </video>
+  <div class="bg-shade"></div>
+</div>
+
+<div class="page">
+  <header class="header">
+    <a class="logo" href="#" data-view="home" aria-label="Landau school — главная">
+      <svg viewBox="0 0 30 26" aria-hidden="true"><path fill="#111" fill-rule="evenodd" d="M3.2 19.6C.4 15.8 1.3 8.6 6.6 4.7 11.3 1.2 18.9.9 23.9 4.1c4.7 3 6.3 9 3.6 13.9-2.9 5.3-9.4 7.7-15.4 7-3.8-.4-6.9-2.4-8.9-5.4ZM9.5 17.2l4.3-6.4 2.6 3.6 1.7-2.2 3.4 5z"/></svg>
+    </a>
+    <nav class="nav" id="nav" aria-label="Основное меню">
+      <a href="#" data-view="home">Главная</a>
+      <a href="#" data-view="sched">Расписание</a>
+      <a href="#" data-view="hw">Задания</a>
+      <a href="#" data-view="gr">Оценки</a>
+    </nav>
+    <button class="sign-in" type="button" data-auth>Войти</button>
+    <button class="burger" id="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </header>
+
+  <main class="main" id="main">
+    <section class="hero" id="v-home">
+      <div class="trust anim" style="--d:0.05s">
+        <div class="avatar a1"><span><i class="fa-solid fa-book-open"></i></span></div>
+        <div class="avatar a2"><span><i class="fa-solid fa-calendar-days"></i></span></div>
+        <div class="avatar a3"><span><i class="fa-solid fa-graduation-cap"></i></span></div>
+        <div class="trust-pill" id="trust-text">7 классы · 7R1 и 7R3</div>
+      </div>
+      <h1 class="headline"><span>Landau School</span><span>Homework Portal</span></h1>
+      <p class="subhead anim" id="subhead" style="--d:0.28s"></p>
+      <button class="cta anim" id="cta" type="button" style="--d:0.4s">Войти</button>
+    </section>
+    <section class="view" id="v-sched" hidden></section>
+    <section class="view" id="v-hw" hidden></section>
+    <section class="view" id="v-gr" hidden></section>
+  </main>
+
+  <footer class="stats" id="stats">
+    <div class="stat anim" style="--d:0.5s"><div class="stat-icon">#</div><div class="stat-value" data-target="2" data-dec="0" data-suffix="">0</div><div class="stat-label">Класса</div></div>
+    <div class="stat anim" style="--d:0.58s"><div class="stat-icon">*</div><div class="stat-value" data-target="5" data-dec="0" data-suffix="">0</div><div class="stat-label">Учебных дней</div></div>
+    <div class="stat anim" style="--d:0.66s"><div class="stat-icon">&lt;</div><div class="stat-value" data-target="8" data-dec="0" data-suffix="">0</div><div class="stat-label">Уроков в день</div></div>
+    <div class="stat anim" style="--d:0.74s"><div class="stat-icon">%</div><div class="stat-value" data-target="8" data-dec="0" data-suffix=":00">0</div><div class="stat-label">Начало занятий</div></div>
+  </footer>
+</div>
+
+<div class="overlay" id="overlay" hidden></div>
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <a href="#" data-view="home">Главная</a>
+  <a href="#" data-view="sched">Расписание</a>
+  <a href="#" data-view="hw">Задания</a>
+  <a href="#" data-view="gr">Оценки</a>
+  <button class="sign-in" type="button" data-auth>Войти</button>
+</div>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="mt">
+    <button class="x" id="mx" type="button" aria-label="Закрыть">&times;</button>
+    <div id="step1">
+      <div class="brand">Landau School</div>
+      <h2 id="mt">Вход в аккаунт</h2>
+      <p>Выберите, кто вы.</p>
+      <div class="roles">
+        <button class="role" type="button" data-role="student"><strong>Я родитель / ученик</strong><span>Смотреть задания, оценки и комментарии</span></button>
+        <button class="role" type="button" data-role="teacher"><strong>Я учитель</strong><span>Выставлять задания, оценки и комментарии</span></button>
+      </div>
+    </div>
+    <form id="step2" hidden autocomplete="off">
+      <button type="button" class="back" id="back">← Назад</button>
+      <h2 id="role-title"></h2>
+      <label>Логин<input id="login" required autocapitalize="off" autocomplete="username"></label>
+      <label>Пароль<input id="pass" type="password" required autocomplete="current-password"></label>
+      <p class="err" id="err" role="alert"></p>
+      <button class="btn" type="submit">Войти</button>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* ===== НАСТРОЙКА БАЗЫ (Supabase) =====
+     Вставьте сюда адрес проекта и публичный (anon) ключ из Supabase → Project Settings → API.
+     Пока поля пустые, сайт работает в демо-режиме: данные хранятся только в этом браузере. */
+  var SUPABASE_URL='https://ohagfrmhkkgmztypkbim.supabase.co';   // например: https://abcdxyz.supabase.co
+  var SUPABASE_KEY='sb_publishable_DA_v1t9uYNe15XRP04i-ow_PYKpBMd_';   // anon public key
+  var EMAIL_DOMAIN='school.local';
+  var POLL_MS=6000;
+  var REMOTE=!!(SUPABASE_URL&&SUPABASE_KEY);
+
+  var $=function(s){return document.querySelector(s);};
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+  /* ---------- Расписание ---------- */
+  var TIMES=['8:00–8:45','8:50–9:35','9:40–10:25','10:30–11:15','11:20–12:05','12:10–12:55','13:00–13:40','13:45–14:25','14:30–15:10'];
+  var DAYS=['Понедельник','Вторник','Среда','Четверг','Пятница'];
+  var SCHED={
+    '7R1':{teacher:'Шахбазова С.Ш.',days:[
+      ['İT','Русский язык','Биология','Физика','Франц./Нем. язык','ОБЕД','Азербайджанский язык','Английский язык','Литература'],
+      ['Русский язык','История Азербайджана','Математика','Математика','Английский язык','ОБЕД','Conv. (англ.)','Химия','Физкультура'],
+      ['Азербайджанский язык','Английский язык','География','Математика','Математика','ОБЕД','IT','Физика','Франц./Нем. язык'],
+      ['Русский язык','Литература','Биология','Всеобщая история','Математика','ОБЕД','Английский язык','Азербайджанский язык','Conv. (az.)'],
+      ['Английский язык','Математика','Математика','Мой Азербайджан','Логика','ОБЕД','География','Химия','Математика на английском']]},
+    '7R3':{teacher:'',days:[
+      ['Математика','İT','Английский язык','Математика','Франц./Нем. язык','ОБЕД','Биология','Физика','География'],
+      ['Русский язык','Химия','Математика','Литература','İT','ОБЕД','История Азербайджана','Азербайджанский язык','Английский язык'],
+      ['Физика','Математика','Азербайджанский язык','Conv. (az.)','Английский язык','ОБЕД','Мой Азербайджан','Русский язык','Франц./Нем. язык'],
+      ['Английский язык','География','Математика','Математика','Химия','ОБЕД','Русский язык','Логика','Биология'],
+      ['Всеобщая история','Математика','Математика на английском','Литература','Азербайджанский язык','ОБЕД','Физкультура','Английский язык','Conv. (англ.)']]}
+  };
+  var CLASSES=['7R1','7R3'];
+  var schedCls='7R1';
+
+  /* ---------- Состояние ---------- */
+  var user=null,data={homework:[],grades:[],students:[]},lastJson='',pending=null;
+  var ui={tab:'hw',cls:'7R1'};
+
+  /* ---------- Локальный (демо) режим ---------- */
+  var USERS=[];
+  function pub(u){return {id:u.id,role:u.role,login:u.login,name:u.name,cls:u.cls||null,subject:u.subject||null};}
+
+  var LS='hw_site_v2',SS='hw_site_session2',memSess=null;
+  function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+  function seed(){
+    return {homework:[
+      {id:'h1',cls:'7R1',subject:'Математика',teacher:'t1',teacher_name:'Учитель математики',due:'2026-10-09',text:'Параграф 5, упражнения 12–18.'},
+      {id:'h2',cls:'7R3',subject:'Математика',teacher:'t1',teacher_name:'Учитель математики',due:'2026-10-09',text:'Параграф 5, упражнения 10–16.'},
+      {id:'h3',cls:'7R1',subject:'Русский язык',teacher:'t2',teacher_name:'Учитель русского языка',due:'2026-10-08',text:'Выучить правило и выполнить упражнение 34.'}
+    ],grades:[
+      {id:'g1',student:'7r1-01',subject:'Математика',teacher:'t1',teacher_name:'Учитель математики',date:'2026-10-05',grade:9,comment:'Отличная работа у доски.'},
+      {id:'g2',student:'7r1-01',subject:'Русский язык',teacher:'t2',teacher_name:'Учитель русского языка',date:'2026-10-06',grade:7,comment:'Следите за запятыми.'}
+    ]};
+  }
+  function ldLocal(){try{var s=JSON.parse(localStorage.getItem(LS));if(s&&s.homework&&s.grades)return s;}catch(e){}return seed();}
+  function svLocal(s){try{localStorage.setItem(LS,JSON.stringify(s));}catch(e){}}
+  function getSess(){try{return localStorage.getItem(SS)||memSess;}catch(e){return memSess;}}
+  function setSess(v){memSess=v;try{v?localStorage.setItem(SS,v):localStorage.removeItem(SS);}catch(e){}}
+
+  var local={
+    restore:async function(){var id=getSess();var u=USERS.filter(function(x){return x.id===id;})[0];return u?pub(u):null;},
+    login:async function(role,l,p){
+      var u=USERS.filter(function(x){return x.role===role&&x.login===l&&x.pass===p;})[0];
+      if(!u)throw new Error('Неверный логин или пароль.');
+      setSess(u.id);return pub(u);
+    },
+    logout:async function(){setSess(null);},
+    fetchAll:async function(u){
+      var s=ldLocal();
+      return {homework:s.homework,grades:s.grades,students:u.role==='teacher'?USERS.filter(function(x){return x.role==='student';}).map(pub):[]};
+    },
+    addHw:async function(u,o){var s=ldLocal();s.homework.push({id:uid(),cls:o.cls,subject:u.subject,teacher:u.id,teacher_name:u.name,due:o.due,text:o.text});svLocal(s);},
+    delHw:async function(id){var s=ldLocal();s.homework=s.homework.filter(function(x){return x.id!==id;});svLocal(s);},
+    addGrade:async function(u,o){var s=ldLocal();s.grades.push({id:uid(),student:o.student,subject:u.subject,teacher:u.id,teacher_name:u.name,date:o.date,grade:o.grade,comment:o.comment});svLocal(s);},
+    delGrade:async function(id){var s=ldLocal();s.grades=s.grades.filter(function(x){return x.id!==id;});svLocal(s);}
+  };
+
+  /* ---------- Общая база (Supabase) ---------- */
+  var sb=null;
+  function loadRemote(){
+    return new Promise(function(res,rej){
+      var s=document.createElement('script');
+      s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+      s.onload=function(){sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);res();};
+      s.onerror=function(){rej(new Error('Не удалось загрузить библиотеку базы данных.'));};
+      document.head.appendChild(s);
+    });
+  }
+  async function profile(id){var r=await sb.from('profiles').select('*').eq('id',id).maybeSingle();return r.data||null;}
+  function chk(r){if(r.error)throw r.error;return r.data;}
+  var remote={
+    restore:async function(){
+      var s=await sb.auth.getSession();
+      if(!s.data||!s.data.session)return null;
+      return await profile(s.data.session.user.id);
+    },
+    login:async function(role,l,p){
+      var r=await sb.auth.signInWithPassword({email:l+'@'+EMAIL_DOMAIN,password:p});
+      if(r.error)throw new Error('Неверный логин или пароль.');
+      var pr=await profile(r.data.user.id);
+      if(!pr||pr.role!==role){await sb.auth.signOut();throw new Error('Неверный логин или пароль.');}
+      return pr;
+    },
+    logout:async function(){await sb.auth.signOut();},
+    fetchAll:async function(u){
+      var hw=chk(await sb.from('homework').select('*').order('due',{ascending:false}));
+      var gr=chk(await sb.from('grades').select('*').order('date',{ascending:false}));
+      var st=[];
+      if(u.role==='teacher')st=chk(await sb.from('profiles').select('*').eq('role','student').order('login'));
+      return {homework:hw,grades:gr,students:st};
+    },
+    addHw:async function(u,o){chk(await sb.from('homework').insert({cls:o.cls,subject:u.subject,teacher:u.id,teacher_name:u.name,due:o.due,text:o.text}));},
+    delHw:async function(id){chk(await sb.from('homework').delete().eq('id',id));},
+    addGrade:async function(u,o){chk(await sb.from('grades').insert({student:o.student,subject:u.subject,teacher:u.id,teacher_name:u.name,date:o.date,grade:o.grade,comment:o.comment}));},
+    delGrade:async function(id){chk(await sb.from('grades').delete().eq('id',id));}
+  };
+  var API=REMOTE?remote:local;
+
+  /* ---------- Вспомогательное ---------- */
+  function fmt(d){try{return new Date(d+'T00:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'long'});}catch(e){return d;}}
+  function gcls(g){return g>=9?'g-hi':g>=7?'g-mid':g>=5?'g-low':'g-bad';}
+  function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+  function studentById(id){return data.students.filter(function(s){return s.id===id;})[0];}
+  function byDate(k){return function(a,b){return a[k]<b[k]?1:a[k]>b[k]?-1:0;};}
+
+  /* ---------- Интерфейс ---------- */
+  var view='home',booted=false;
+  var VIEWS=['home','sched','hw','gr'];
+  var main=$('#main');
+
+  function demoNote(){return REMOTE?'':'<p class="meta" style="margin:0 4px 12px">Демо-режим: данные видны только в этом браузере. Чтобы их видели все, подключите базу данных.</p>';}
+  function head(title,chip){return '<div class="view-head"><h2>'+title+'</h2>'+(chip?'<span class="chip">'+chip+'</span>':'')+'</div>';}
+  function gradeCls(g){return g>=7?'':' low';}
+  function classOpts(sel){return CLASSES.map(function(c){return '<option'+(c===sel?' selected':'')+'>'+c+'</option>';}).join('');}
+
+  function schedHtml(){
+    var isT=user.role==='teacher';
+    if(!isT)schedCls=user.cls;
+    var s=SCHED[schedCls]||SCHED['7R1'];
+    var h=head('Расписание',isT?'':'Класс '+esc(schedCls));
+    if(isT)h+='<div class="tabs">'+CLASSES.map(function(c){return '<button class="tab'+(c===schedCls?' on':'')+'" type="button" data-sc="'+c+'">'+c+'</button>';}).join('')+'</div>';
+    if(s.teacher)h+='<p class="meta" style="margin:0 4px 12px">Классный руководитель: '+esc(s.teacher)+'</p>';
+    h+='<div class="days">'+s.days.map(function(d,i){
+      return '<div class="card day"><h3>'+DAYS[i]+'</h3>'+d.map(function(sub,j){
+        return '<div class="row'+(sub==='ОБЕД'?' lunch':'')+'"><span class="n">'+(j+1)+' урок</span><span class="t">'+TIMES[j]+'</span><span>'+esc(sub==='ОБЕД'?'Обед':sub)+'</span></div>';
+      }).join('')+'</div>';
+    }).join('')+'</div>';
+    h+='<p class="note">Администрация школы оставляет за собой право при необходимости вносить коррективы в расписание класса.</p>';
+    return h;
+  }
+  function hwHtml(){
+    var u=user,h;
+    if(u.role==='student'){
+      var hw=data.homework.filter(function(x){return x.cls===u.cls;}).sort(byDate('due'));
+      h=head('Домашние задания','Класс '+esc(u.cls))+demoNote();
+      h+=hw.length?'<div class="list">'+hw.map(function(x){
+        return '<div class="card item"><div class="item-top"><strong>'+esc(x.subject)+'</strong><span class="chip">Сдать до '+fmt(x.due)+'</span></div><p>'+esc(x.text)+'</p><span class="meta">'+esc(x.teacher_name)+'</span></div>';
+      }).join('')+'</div>':'<div class="card empty">Пока нет домашних заданий.</div>';
+      return h;
+    }
+    var mine=data.homework.filter(function(x){return x.teacher===u.id;}).sort(byDate('due'));
+    h=head('Домашние задания',esc(u.subject))+demoNote();
+    h+='<div class="grid2"><form class="card f" id="hw-form"><strong>Новое задание</strong>'+
+      '<label>Класс<select id="hw-cls">'+classOpts(ui.cls)+'</select></label>'+
+      '<label>Срок сдачи<input type="date" id="hw-due" required value="'+today()+'"></label>'+
+      '<label>Задание<textarea id="hw-text" required placeholder="Что нужно сделать"></textarea></label>'+
+      '<button class="btn" type="submit">Опубликовать</button></form>'+
+      '<div class="list">'+(mine.length?mine.map(function(x){
+        return '<div class="card item"><div class="item-top"><strong>'+esc(x.cls)+' · '+esc(x.subject)+'</strong><span class="chip">До '+fmt(x.due)+'</span></div><p>'+esc(x.text)+'</p><button class="del" type="button" data-del-hw="'+esc(x.id)+'">Удалить</button></div>';
+      }).join(''):'<div class="card empty">Вы ещё не выдавали заданий.</div>')+'</div></div>';
+    return h;
+  }
+  function grHtml(){
+    var u=user,h;
+    if(u.role==='student'){
+      var gr=data.grades.filter(function(x){return x.student===u.id;}).sort(byDate('date'));
+      h=head('Оценки и комментарии','Класс '+esc(u.cls))+demoNote();
+      if(gr.length){
+        var avg=(gr.reduce(function(s,x){return s+x.grade;},0)/gr.length).toFixed(1);
+        h+='<p class="avg">Средний балл: <strong>'+avg+'</strong></p>';
+      }
+      h+=gr.length?'<div class="list">'+gr.map(function(x){
+        return '<div class="card item"><div class="grade-row"><span class="grade'+gradeCls(x.grade)+'">'+x.grade+'</span><div><strong>'+esc(x.subject)+'</strong><div class="meta">'+fmt(x.date)+' · '+esc(x.teacher_name)+'</div></div></div>'+(x.comment?'<p>'+esc(x.comment)+'</p>':'')+'</div>';
+      }).join('')+'</div>':'<div class="card empty">Оценок и комментариев пока нет.</div>';
+      return h;
+    }
+    var studs=data.students.filter(function(s){return s.cls===ui.cls;});
+    var mg=data.grades.filter(function(x){return x.teacher===u.id;}).sort(byDate('date'));
+    var gopts='';for(var g=10;g>=1;g--)gopts+='<option>'+g+'</option>';
+    h=head('Оценки и комментарии',esc(u.subject))+demoNote();
+    h+='<div class="grid2"><form class="card f" id="gr-form"><strong>Оценка и комментарий</strong>'+
+      '<label>Класс<select id="gr-cls">'+classOpts(ui.cls)+'</select></label>'+
+      '<label>Ученик<select id="gr-st">'+studs.map(function(s){return '<option value="'+esc(s.id)+'">'+esc(s.name)+'</option>';}).join('')+'</select></label>'+
+      '<label>Оценка<select id="gr-val">'+gopts+'</select></label>'+
+      '<label>Дата<input type="date" id="gr-date" required value="'+today()+'"></label>'+
+      '<label>Комментарий<textarea id="gr-com" placeholder="Необязательно"></textarea></label>'+
+      '<button class="btn" type="submit">Сохранить</button></form>'+
+      '<div class="list">'+(mg.length?mg.map(function(x){
+        var s=studentById(x.student);
+        return '<div class="card item"><div class="grade-row"><span class="grade'+gradeCls(x.grade)+'">'+x.grade+'</span><div><strong>'+(s?esc(s.name):'Ученик')+'</strong><div class="meta">'+fmt(x.date)+' · '+esc(x.subject)+'</div></div></div>'+(x.comment?'<p>'+esc(x.comment)+'</p>':'')+'<button class="del" type="button" data-del-gr="'+esc(x.id)+'">Удалить</button></div>';
+      }).join(''):'<div class="card empty">Вы ещё не ставили оценок.</div>')+'</div></div>';
+    return h;
+  }
+
+  function render(){
+    if(!user)view='home';
+    document.body.classList.toggle('out',!user);
+    document.body.classList.toggle('inview',view!=='home');
+    [].forEach.call(document.querySelectorAll('[data-auth]'),function(b){b.textContent=user?'Выйти':'Войти';});
+    [].forEach.call(document.querySelectorAll('.nav a,.mobile-menu a'),function(a){a.classList.toggle('active',a.dataset.view===view);});
+    VIEWS.forEach(function(v){$('#v-'+v).hidden=v!==view;});
+    $('#stats').hidden=view!=='home';
+    $('#subhead').textContent=user
+      ?('Здравствуйте, '+user.name+'. Расписание, домашние задания, оценки и комментарии учителей — в меню сверху.')
+      :'Расписание, домашние задания, оценки и комментарии учителей в одном месте. Войдите, чтобы продолжить.';
+    $('#cta').textContent=user?'Открыть задания':'Войти';
+    $('#trust-text').textContent=user?(user.role==='teacher'?(user.subject||'Учитель'):'Класс '+user.cls):'7 классы · 7R1 и 7R3';
+    if(!user)return;
+    if(view==='sched')$('#v-sched').innerHTML=schedHtml();
+    if(view==='hw')$('#v-hw').innerHTML=hwHtml();
+    if(view==='gr')$('#v-gr').innerHTML=grHtml();
+  }
+  function setView(v){
+    closeMenu();
+    if(!user&&v!=='home'){openModal();return;}
+    view=v;render();
+    var el=$('#v-'+v);if(el)el.scrollTop=0;
+  }
+  function dirty(){
+    var ae=document.activeElement;
+    if(ae&&ae.closest&&ae.closest('#main form'))return true;
+    return [].some.call(main.querySelectorAll('textarea'),function(t){return t.value.trim()!=='';});
+  }
+  async function refresh(force){
+    if(!user)return;
+    try{
+      var d=await API.fetchAll(user),j=JSON.stringify(d);
+      if(!force&&(j===lastJson||dirty()))return;
+      data=d;lastJson=j;render();
+    }catch(e){}
+  }
+  async function act(fn){
+    try{await fn();}catch(err){alert('Не удалось сохранить: '+(err&&err.message?err.message:'ошибка сети'));}
+    await refresh(true);
+  }
+
+  main.addEventListener('click',function(e){
+    var b=e.target.closest('[data-sc]');
+    if(b){schedCls=b.dataset.sc;render();return;}
+    var d=e.target.closest('[data-del-hw]');
+    if(d){act(function(){return API.delHw(d.dataset.delHw);});return;}
+    d=e.target.closest('[data-del-gr]');
+    if(d)act(function(){return API.delGrade(d.dataset.delGr);});
+  });
+  main.addEventListener('change',function(e){
+    if(e.target.id==='gr-cls'){ui.cls=e.target.value;render();}
+    else if(e.target.id==='hw-cls'){ui.cls=e.target.value;}
+  });
+  main.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!user||user.role!=='teacher')return;
+    if(e.target.id==='hw-form'){
+      var o={cls:$('#hw-cls').value,due:$('#hw-due').value,text:$('#hw-text').value.trim()};
+      if(!o.text)return;
+      act(function(){return API.addHw(user,o);});
+    }else if(e.target.id==='gr-form'){
+      var st=$('#gr-st').value;if(!st)return;
+      var g={student:st,date:$('#gr-date').value,grade:parseInt($('#gr-val').value,10),comment:$('#gr-com').value.trim()};
+      act(function(){return API.addGrade(user,g);});
+    }
+  });
+  $('#cta').addEventListener('click',function(){user?setView('hw'):openModal();});
+
+  /* ---------- Меню и навигация ---------- */
+  var burger=$('#burger'),menu=$('#mobile-menu'),overlay=$('#overlay');
+  function closeMenu(){burger.setAttribute('aria-expanded','false');menu.hidden=true;overlay.hidden=true;document.body.classList.remove('menu-open');}
+  function openMenu(){burger.setAttribute('aria-expanded','true');menu.hidden=false;overlay.hidden=false;document.body.classList.add('menu-open');}
+  burger.addEventListener('click',function(){burger.getAttribute('aria-expanded')==='true'?closeMenu():openMenu();});
+  overlay.addEventListener('click',closeMenu);
+  window.addEventListener('resize',function(){if(window.innerWidth>720)closeMenu();});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('[data-view]');
+    if(a){e.preventDefault();setView(a.dataset.view);return;}
+    var b=e.target.closest('[data-auth]');
+    if(b){
+      closeMenu();
+      if(user)logout();else openModal();
+    }
+  });
+  async function logout(){
+    try{await API.logout();}catch(e){}
+    user=null;data={homework:[],grades:[],students:[]};lastJson='';view='home';render();
+  }
+
+  /* ---------- Окно входа ---------- */
+  var modal=$('#modal'),role=null;
+  function showStep(n){$('#step1').hidden=n!==1;$('#step2').hidden=n!==2;}
+  function chooseRole(r){
+    role=r;
+    $('#role-title').textContent=r==='teacher'?'Вход для учителя':'Вход для родителя / ученика';
+    $('#err').textContent='';$('#login').value='';$('#pass').value='';
+    showStep(2);
+    setTimeout(function(){$('#login').focus();},60);
+  }
+  function openModal(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');showStep(1);}
+  function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');}
+  $('#mx').addEventListener('click',closeModal);
+  modal.addEventListener('pointerdown',function(e){if(e.target===modal)closeModal();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeMenu();}});
+  $('#step1').addEventListener('click',function(e){var b=e.target.closest('[data-role]');if(b)chooseRole(b.dataset.role);});
+  $('#back').addEventListener('click',function(){showStep(1);});
+  $('#step2').addEventListener('submit',async function(e){
+    e.preventDefault();
+    var btn=e.target.querySelector('button[type=submit]');
+    var l=$('#login').value.trim().toLowerCase(),p=$('#pass').value;
+    btn.disabled=true;$('#err').textContent='';
+    try{
+      var u=await API.login(role,l,p);
+      user=u;ui.cls=u.cls||'7R1';schedCls=u.cls||'7R1';lastJson='';view='home';
+      closeModal();render();
+      await refresh(true);
+    }catch(err){
+      $('#err').textContent=err&&err.message?err.message:'Не удалось войти.';
+    }
+    btn.disabled=false;
+  });
+
+  /* ---------- Счётчики ---------- */
+  function countUp(){
+    var els=[].slice.call(document.querySelectorAll('.stat-value'));
+    function run(el,i){
+      var target=parseFloat(el.dataset.target),dec=parseInt(el.dataset.dec,10)||0,suf=el.dataset.suffix||'';
+      var dur=1500+i*80,start=null;
+      if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){el.textContent=target.toFixed(dec)+suf;return;}
+      setTimeout(function(){
+        requestAnimationFrame(function step(ts){
+          if(start===null)start=ts;
+          var t=Math.min(1,(ts-start)/dur),k=1-Math.pow(1-t,3);
+          el.textContent=(target*k).toFixed(dec)+suf;
+          if(t<1)requestAnimationFrame(step);
+        });
+      },480+i*90);
+    }
+    if(!('IntersectionObserver' in window)){els.forEach(run);return;}
+    var io=new IntersectionObserver(function(en){
+      en.forEach(function(x){if(x.isIntersecting){io.unobserve(x.target);run(x.target,els.indexOf(x.target));}});
+    },{threshold:0.25});
+    els.forEach(function(el){io.observe(el);});
+  }
+
+  /* ---------- Запуск и автообновление ---------- */
+  render();countUp();
+  (async function boot(){
+    try{
+      if(REMOTE)await loadRemote();
+      var u=await API.restore();
+      if(u){user=u;ui.cls=u.cls||'7R1';schedCls=u.cls||'7R1';render();await refresh(true);}
+    }catch(e){}
+    booted=true;
+    setInterval(function(){if(!document.hidden)refresh(false);},POLL_MS);
+    document.addEventListener('visibilitychange',function(){if(!document.hidden)refresh(false);});
+  })();
+})();
+</script>
+</body>
+</html>
